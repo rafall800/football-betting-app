@@ -1,7 +1,6 @@
 import mongoose, { Connection } from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI as string;
-
 if (!MONGODB_URI) {
   throw new Error(
     'Please define the MONGODB_URI environment variable inside .env',
@@ -26,7 +25,7 @@ global.mongoose ||= { conn: null, promise: null };
 
 const cached = global.mongoose;
 
-async function dbConnect(): Promise<Connection> {
+async function dbConnect(): Promise<Connection | null> {
   if (cached.conn) {
     return cached.conn;
   }
@@ -34,11 +33,18 @@ async function dbConnect(): Promise<Connection> {
   if (!cached.promise) {
     const opts = { bufferCommands: false };
 
-    cached.promise = mongoose
-      .connect(MONGODB_URI, opts)
-      .then((mongooseInstance) => {
-        return mongooseInstance.connection;
+    try {
+      cached.promise = mongoose
+        .connect(MONGODB_URI, opts)
+        .then((mongooseInstance) => {
+          return mongooseInstance.connection;
+        });
+      mongoose.connection.on('error', (error) => {
+        console.log('Error after initial db connection:', error);
       });
+    } catch (error) {
+      console.log('Error in initial db connection:', error);
+    }
   }
 
   cached.conn = await cached.promise;

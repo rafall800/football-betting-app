@@ -1,4 +1,5 @@
-// `app/dashboard/page.tsx` is the UI for the `/dashboard` URL
+import SignupForm from '../ui/signup-form';
+
 export default function Page() {
-  return <h1>Hello, Dashboard Page!</h1>;
+  return <SignupForm />;
 }

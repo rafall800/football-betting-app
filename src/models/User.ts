@@ -4,23 +4,21 @@ import mongoose, { Document, Model, Schema } from 'mongoose';
 export interface IUser extends Document {
   username: string;
   password: string;
-  points: number;
 }
 
 // Define the User schema
 const UserSchema: Schema<IUser> = new Schema({
   username: {
     type: String,
-    required: [true, 'Please provide a username'],
+    required: true,
     unique: true,
     trim: true,
   },
   password: {
     type: String,
-  },
-  points: {
-    type: Number,
-    default: 0,
+    required: true,
+    unique: true,
+    trim: true,
   },
 });
 

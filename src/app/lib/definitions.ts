@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const SignupFormSchema = z.object({
-  name: z
+  username: z
     .string()
     .min(2, { message: 'Name must be at least 2 characters long.' })
     .trim(),
@@ -19,7 +19,7 @@ export const SignupFormSchema = z.object({
 export type FormState =
   | {
       errors?: {
-        name?: string[];
+        username?: string[];
         password?: string[];
       };
       message?: string;
