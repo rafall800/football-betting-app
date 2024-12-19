@@ -1,6 +1,6 @@
 'use client';
 
-import { signup } from '@/app/actions/auth';
+import { signup } from '@/actions/signup';
 import { useActionState } from 'react';
 
 export default function SignupForm() {
@@ -9,8 +9,8 @@ export default function SignupForm() {
   return (
     <form action={action}>
       <div>
-        <label htmlFor='name'>Name</label>
-        <input id='name' name='name' />
+        <label htmlFor='username'>Userame</label>
+        <input id='username' name='username' />
       </div>
       {state?.errors?.username && <p>{state.errors.username}</p>}
 

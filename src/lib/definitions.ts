@@ -16,6 +16,11 @@ export const SignupFormSchema = z.object({
     .trim(),
 });
 
+export const LogInSchema = z.object({
+  username: z.string().trim(),
+  password: z.string().trim(),
+});
+
 export type FormState =
   | {
       errors?: {

@@ -1,16 +1,16 @@
 'use server';
 
-import { SignupFormSchema, FormState } from '@/app/lib/definitions';
+import { SignupFormSchema, FormState } from '@/lib/definitions';
 import dbConnect from '@/lib/dbConnect';
-import { hash } from '@/lib/hash';
+import { hashPassword } from '@/lib/hash';
 import User from '@/models/User';
+import { createSession } from '@/lib/serssion';
 
 export async function signup(state: FormState, formData: FormData) {
   const validatedFields = SignupFormSchema.safeParse({
-    name: formData.get('name'),
+    username: formData.get('username'),
     password: formData.get('password'),
   });
-
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
@@ -26,7 +26,7 @@ export async function signup(state: FormState, formData: FormData) {
     };
   }
 
-  const hashedPassword = await hash(password);
+  const hashedPassword = await hashPassword(password);
   const newUser = await User.create({ username, password: hashedPassword });
 
   if (!newUser) {
@@ -34,8 +34,7 @@ export async function signup(state: FormState, formData: FormData) {
       message: 'An error occurred while creating your account.',
     };
   }
+  await createSession(newUser.id);
 
-  // TODO:
-  // 4. Create user session
   // 5. Redirect user
 }
