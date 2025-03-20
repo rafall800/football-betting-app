@@ -4,7 +4,8 @@ import { SignupFormSchema, FormState } from '@/lib/definitions';
 import dbConnect from '@/lib/dbConnect';
 import { hashPassword } from '@/lib/hash';
 import User from '@/models/User';
-import { createSession } from '@/lib/serssion';
+import { createSession } from '@/lib/session';
+import { redirect } from 'next/navigation';
 
 export async function signup(state: FormState, formData: FormData) {
   const validatedFields = SignupFormSchema.safeParse({
@@ -35,6 +36,7 @@ export async function signup(state: FormState, formData: FormData) {
     };
   }
   await createSession(newUser.id);
+  redirect('/dashboard');
 
   // 5. Redirect user
 }

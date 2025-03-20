@@ -4,7 +4,8 @@ import { FormState, LogInSchema } from '@/lib/definitions';
 import dbConnect from '@/lib/dbConnect';
 import User from '@/models/User';
 import { verifyPassword } from '@/lib/hash';
-import { createSession } from '@/lib/serssion';
+import { createSession } from '@/lib/session';
+import { redirect } from 'next/navigation';
 
 export async function login(state: FormState, formData: FormData) {
   const userData = LogInSchema.safeParse({
@@ -30,6 +31,9 @@ export async function login(state: FormState, formData: FormData) {
     };
   }
   await createSession(user.id);
+  redirect('/dashboard');
 
+  //admin
+  //#admin11
   // 5. Redirect user
 }

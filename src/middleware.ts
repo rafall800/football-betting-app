@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { decrypt } from '@/lib/serssion';
+import { decrypt } from '@/lib/session';
+import { authConfig } from '../auth.confing';
+import NextAuth from 'next-auth';
 
 const protectedRoutes = ['/dashboard'];
 const publicRoutes = ['/login', '/signup', '/'];

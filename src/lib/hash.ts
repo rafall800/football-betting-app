@@ -17,7 +17,6 @@ export const hashPassword = async (password: string) => {
     });
   });
 };
-
 /**
  * Compare a plain text password with a salt+hash password
  * @param {string} password The plain text password
