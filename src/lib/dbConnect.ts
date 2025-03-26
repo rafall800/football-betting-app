@@ -33,21 +33,22 @@ async function dbConnect(): Promise<Connection | null> {
   if (!cached.promise) {
     const opts = { bufferCommands: false };
 
-    try {
-      cached.promise = mongoose
-        .connect(MONGODB_URI, opts)
-        .then((mongooseInstance) => {
-          return mongooseInstance.connection;
-        });
-      mongoose.connection.on('error', (error) => {
-        console.log('Error after initial db connection:', error);
-      });
-    } catch (error) {
-      console.log('Error in initial db connection:', error);
-    }
-  }
+    mongoose.connection.on('error', (error) => {
+      console.error('Error after initial db connection:', error);
+    });
+    mongoose.connection.on('connection', () => console.log('Db connected'));
+    mongoose.connection.on('close', () => console.log('Db closed'));
 
-  cached.conn = await cached.promise;
+    cached.promise = mongoose
+      .connect(MONGODB_URI, opts)
+      .then((mongooseInstance) => mongooseInstance.connection);
+  }
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
+  }
   return cached.conn;
 }
 

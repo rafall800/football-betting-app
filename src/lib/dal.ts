@@ -6,6 +6,7 @@ import { decrypt } from './session';
 import { redirect } from 'next/navigation';
 import dbConnect from './dbConnect';
 import User from '@/models/User';
+import { tryCatch } from './try-catch';
 
 export const verifySession = cache(async () => {
   const cookie = (await cookies()).get('session')?.value;
@@ -21,14 +22,13 @@ export const verifySession = cache(async () => {
 export const getUser = cache(async () => {
   const session = await verifySession();
   if (!session) return null;
-
-  try {
-    await dbConnect();
-    const data = await User.findById(session.userId, 'username');
-
-    return data || null;
-  } catch (error) {
-    console.log('Failed to fetch user', error);
+  await dbConnect();
+  const { data, error } = await tryCatch(
+    User.findById(session.userId, 'username'),
+  );
+  if (error) {
+    console.error('Failed to fetch user', error);
     return null;
   }
+  return data;
 });
