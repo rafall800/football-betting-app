@@ -14,7 +14,8 @@ export async function encrypt(payload: SessionPayload) {
     .sign(jwtSecretKey);
 }
 
-export async function decrypt(session: string | undefined = '') {
+export async function decrypt(session: string | undefined) {
+  if (!session) return null;
   const { data, error } = await tryCatch(jwtVerify(session, jwtSecretKey));
   if (error) {
     console.error('Failed to verify session', error);
