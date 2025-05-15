@@ -7,7 +7,11 @@ import User from '@/models/User';
 import { createSession } from '@/lib/session';
 import { redirect } from 'next/navigation';
 
-export async function signup(state: FormState, formData: FormData) {
+export async function signup(
+  theme: 'dark' | 'light',
+  state: FormState,
+  formData: FormData,
+) {
   const validatedFields = SignupFormSchema.safeParse({
     username: formData.get('username'),
     password: formData.get('password'),
@@ -28,7 +32,11 @@ export async function signup(state: FormState, formData: FormData) {
   }
 
   const hashedPassword = await hashPassword(password);
-  const newUser = await User.create({ username, password: hashedPassword });
+  const newUser = await User.create({
+    username,
+    password: hashedPassword,
+    theme,
+  });
 
   if (!newUser) {
     return {
@@ -37,6 +45,4 @@ export async function signup(state: FormState, formData: FormData) {
   }
   await createSession(newUser.id);
   redirect('/dashboard');
-
-  // 5. Redirect user
 }

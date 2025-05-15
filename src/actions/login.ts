@@ -35,5 +35,4 @@ export async function login(state: FormState, formData: FormData) {
 
   //admin
   //#admin11
-  // 5. Redirect user
 }

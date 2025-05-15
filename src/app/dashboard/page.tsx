@@ -5,7 +5,9 @@ export default async function Page() {
   const user = await getUser();
   return (
     <div>
-      <p>Hello {user?.username} from Dashboard</p>
+      <p>
+        Hello {user?.username} from Dashboard. Your theme: {user?.theme}{' '}
+      </p>
       <LogoutButton />
     </div>
   );
