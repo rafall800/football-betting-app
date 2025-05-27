@@ -4,19 +4,7 @@ import { signup } from '@/actions/signup';
 import { useActionState } from 'react';
 
 export default function SignupForm() {
-  const theme =
-    window.matchMedia &&
-    window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
-  const signupWithTheme = signup.bind(null, theme);
-  const [state, action, pending] = useActionState(signupWithTheme, undefined);
-
-  const getPreferredTheme = (): 'dark' | 'light' => {
-    return window.matchMedia?.('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
-  };
+  const [state, action, pending] = useActionState(signup, undefined);
 
   return (
     <form action={action}>

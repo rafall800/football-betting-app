@@ -24,7 +24,7 @@ export const getUser = cache(async () => {
   if (!session) return null;
   await dbConnect();
   const { data, error } = await tryCatch(
-    User.findById(session.userId, 'username theme'),
+    User.findById(session.userId, 'username'),
   );
   if (error) {
     console.error('Failed to fetch user', error);

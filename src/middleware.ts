@@ -9,7 +9,7 @@ export default async function middleware(req: NextRequest) {
   const isPublicRoute = publicRoutes.includes(path);
 
   const cookie = (await cookies()).get('session')?.value;
-  const payload = await decrypt(cookie);
+  const payload = cookie ? await decrypt(cookie) : null;
 
   if (!isPublicRoute && !payload?.userId) {
     return NextResponse.redirect(new URL('/login', req.nextUrl));
@@ -27,5 +27,5 @@ export default async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|.*\\.\\w+$).*)'],
 };

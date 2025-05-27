@@ -4,7 +4,6 @@ import mongoose, { Document, Model, Schema } from 'mongoose';
 export interface IUser extends Document {
   username: string;
   password: string;
-  theme: string;
 }
 
 // Define the User schema
@@ -20,9 +19,6 @@ const UserSchema: Schema<IUser> = new Schema({
     required: true,
     unique: true,
     trim: true,
-  },
-  theme: {
-    type: String,
   },
 });
 

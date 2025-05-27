@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import '../globals.css';
-import { getUser } from '@/lib/dal';
 
 const geistSans = localFont({
   src: '../fonts/GeistVF.woff',
@@ -16,18 +15,30 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: 'Instal Betting',
-  description: 'Instal battle royal',
+  description: 'Instal battle royale',
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await getUser();
-  const htmlClass = user?.theme === 'dark' ? 'dark' : '';
   return (
-    <html lang='en' className={htmlClass}>
+    <html lang='en' suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+          const theme = localStorage.getItem("theme");
+          if (theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+            document.documentElement.classList.add("dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+          }
+        `,
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
