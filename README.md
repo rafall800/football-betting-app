@@ -1,3 +1,18 @@
+## TO DO
+
+[] Set up tests
+[] Set up error handling
+[] Login page
+[] Register page
+[] Role handling
+[] Landing page
+[] Admin panel
+[] How to make creating tournaments by admin flexible
+[] Creating events by user
+[] Enable user to handle his own event
+[] Find and connect API for tournament results
+[] Expand on event logic (adding users, displaying results etc)
+
 ## Getting Started
 
 First, run the development server:
