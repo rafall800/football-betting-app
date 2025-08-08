@@ -5,11 +5,12 @@ import { useActionState } from 'react';
 
 export default function LoginForm() {
   const [state, action, pending] = useActionState(login, undefined);
+  console.log('state: -----> ', state);
 
   return (
     <form action={action}>
       <div>
-        <label htmlFor='username'>Userame</label>
+        <label htmlFor='username'>Username</label>
         <input id='username' name='username' />
       </div>
       {state?.errors?.username && <p>{state.errors.username}</p>}

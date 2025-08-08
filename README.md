@@ -1,6 +1,7 @@
 ## TO DO
 
 [] Set up tests
+[] Fix log out button
 [] Set up error handling
 [] Login page
 [] Register page
